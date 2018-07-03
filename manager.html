@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>学生管理系统</title>
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<style type="text/css">
+			thead{
+				background: #999999;
+			}
+			button{
+				margin: 5px;
+			}
+			.noactive{
+				display: none;
+			}
+			.actived{
+				display: table-row;
+			}
+			#tables{
+				width: 800px;
+			}
+			#tables tr{
+				width: 800px;
+			}
+			#tables tr td{
+				min-width: 150px;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<table class="table table-bordered text-center" id="tables">
+			<thead>
+				<tr id="top">
+					<td>编号</td>
+					<td>姓名</td>
+					<td>成绩</td>
+					<td>备注</td>
+					<td>操作</td>
+				</tr>
+			</thead>
+			<tbody class="tbody">
+				   <tr class="noactive">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td><button class="btn btn-danger">删除</button><button class="btn btn-success">添加</button></td>
+				   </tr>
+			</tbody>
+		</table>
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var tr = document.getElementsByClassName('noactive')[0];
+			var td = document.querySelectorAll('.noactive td');
+			var tb = document.getElementsByClassName('tbody')[0]
+			$.get('getdb.php',null,function(json){
+				var json = JSON.parse(json)
+				  console.log(json);
+				  insertDom(json);
+			})
+			
+			function insertDom(json){
+				debugger
+				var length = json.length;
+				for(var i = 0 ;i < length;i++){
+						var trclone = tr.cloneNode(true);
+							for(var j=0;j<td.length-1;j++){	
+							var tds = trclone.querySelectorAll('td')	
+							    tds[j].innerHTML=json[i][j]	
+							   
+						
+					}
+							tb.appendChild(trclone)
+							trclone.className='actived';
+				}
+				
+			}
+			
+		</script>
+	</body>
+</html>
